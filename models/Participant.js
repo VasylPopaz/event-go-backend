@@ -1,4 +1,3 @@
-import { required } from "joi";
 import { Schema, model } from "mongoose";
 
 const participantSchema = new Schema(
@@ -10,7 +9,6 @@ const participantSchema = new Schema(
     email: {
       type: String,
       required: [true, "Email is required."],
-      unique,
     },
     dateOfBith: {
       type: Date,
@@ -21,7 +19,7 @@ const participantSchema = new Schema(
       enum: ["Social media", "Friends", "Found myself"],
     },
     eventId: {
-      type: Schema.Types.ObjectsId,
+      type: Schema.Types.ObjectId,
       ref: Event,
     },
   },
