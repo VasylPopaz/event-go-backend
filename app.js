@@ -12,7 +12,12 @@ const { DB_HOST, PORT } = process.env;
 export const app = express();
 
 app.use(morgan("tiny"));
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://vasylpopaz.github.io"],
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 app.use("/api/participants", participantsRouter);

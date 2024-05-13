@@ -1,10 +1,10 @@
-import { ctrlWrapper } from "../helpers/ctrlWrapper.js";
 import { Participant } from "../models/Participant.js";
+import { ctrlWrapper, HttpError } from "../helpers/index.js";
 import {
   addParticipant,
   getAllParticipants,
-} from "../services/participantsServices.js";
-import { findByFilter } from "../services/findByFilterService.js";
+  findByFilter,
+} from "../services/index.js";
 
 const getParticipants = async (_, res) => {
   const result = await getAllParticipants();
@@ -25,6 +25,14 @@ const getParticipantById = async (req, res) => {
 };
 
 const createParticipant = async (req, res) => {
+  const { email, eventId } = req.body;
+
+  const participants = await getAllParticipants({ email });
+
+  if (participants.find((elem) => elem.eventId.toString() === eventId)) {
+    throw HttpError(409, "Participant already registered for this event");
+  }
+
   const result = await addParticipant(req.body);
 
   res.status(201).json(result);

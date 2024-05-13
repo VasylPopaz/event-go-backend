@@ -1,7 +1,7 @@
 import { Participant } from "../models/Participant.js";
 
-export const getAllParticipants = async () => {
-  const participants = Participant.find({});
+export const getAllParticipants = async (filter = {}) => {
+  const participants = Participant.find(filter);
 
   return participants;
 };

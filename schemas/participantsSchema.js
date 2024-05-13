@@ -9,4 +9,7 @@ export const createParticipantSchema = Joi.object({
     "Friends",
     "Found myself"
   ),
+  eventId: Joi.string().required().messages({
+    "any.required": "eventId is required",
+  }),
 });

@@ -21,6 +21,7 @@ const participantSchema = new Schema(
     eventId: {
       type: Schema.Types.ObjectId,
       ref: Event,
+      required: [true, "eventId is required."],
     },
   },
   { versionKey: false }
