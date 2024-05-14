@@ -14,7 +14,7 @@ export const app = express();
 app.use(morgan("tiny"));
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://vasylpopaz.github.io"],
+    origin: ["http://localhost:5173", "https://events-registration-delta.vercel.app"],
     credentials: true,
   })
 );
