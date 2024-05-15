@@ -3,10 +3,17 @@ import { ctrlWrapper, HttpError } from "../helpers/index.js";
 import { addEvent, getAllEvents, findByFilter } from "../services/index.js";
 
 export const getEvents = async (req, res) => {
-  const { page = 1, limit = 10 } = req.query;
+  const filter = Object.keys(req.query)
+    .filter((key) => key !== "page" && key !== "limit")
+    .reduce((obj, key) => {
+      obj[key] = req.query[key];
+      return obj;
+    }, {});
+
+  const { page = 1, limit = 9 } = req.query;
   const skip = (page - 1) * limit;
 
-  const result = await getAllEvents({}, { skip, limit });
+  const result = await getAllEvents(filter, { skip, limit });
 
   res.json(result);
 };

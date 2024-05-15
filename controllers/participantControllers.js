@@ -6,8 +6,8 @@ import {
   findByFilter,
 } from "../services/index.js";
 
-const getParticipants = async (_, res) => {
-  const result = await getAllParticipants();
+const getParticipants = async (req, res) => {
+  const result = await getAllParticipants(req.query);
 
   res.json(result);
 };
@@ -30,7 +30,7 @@ const createParticipant = async (req, res) => {
   const participants = await getAllParticipants({ email });
 
   if (participants.find((elem) => elem.eventId.toString() === eventId)) {
-    throw HttpError(409, "Participant already registered for this event");
+    throw HttpError(409, "Participant already registered for this event.");
   }
 
   const result = await addParticipant(req.body);
