@@ -7,7 +7,9 @@ export const getAllEvents = async (filter = {}, query = {}) => {
     query
   );
 
-  return events;
+  const totalEvents = await Event.countDocuments();
+
+  return { events, totalEvents };
 };
 
 export const addEvent = async (data) => {
