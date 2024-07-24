@@ -1,1 +1,1 @@
-# events_registration_app_backend
+# event-go-backend
