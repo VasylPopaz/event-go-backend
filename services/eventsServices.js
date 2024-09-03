@@ -1,19 +1,22 @@
 import { Event } from "../models/Event.js";
 
-export const getAllEvents = async (filter = {}, query = {}, sort = null) => {
-  let sortOptions = {};
+export const getAllEvents = async (search = {}, query = {}, sort = null) => {
+  const filter = search
+    ? {
+        $or: [
+          { title: new RegExp(search, "i") },
+          { description: new RegExp(search, "i") },
+          { organizer: new RegExp(search, "i") },
+        ],
+      }
+    : {};
 
-  if (sort) {
-    if (sort.byTitle) {
-      sortOptions.title = sort.byTitle === "true" ? 1 : -1;
+  const sortOptions = Object.entries(sort).reduce((acc, [key, value]) => {
+    if (key === "byTitle" || key === "byDate" || key === "byOrganizer") {
+      acc[key.replace("by", "").toLowerCase()] = value === "true" ? 1 : -1;
     }
-    if (sort.byDate) {
-      sortOptions.date = sort.byDate === "true" ? 1 : -1;
-    }
-    if (sort.byOrganizer) {
-      sortOptions.organizer = sort.byOrganizer === "true" ? 1 : -1;
-    }
-  }
+    return acc;
+  }, {});
 
   const events = await Event.find(
     filter,
